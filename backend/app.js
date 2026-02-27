@@ -10,7 +10,7 @@ const app = express();
 app.use(cors({
   origin: [
     "https://mern-hotel-booking-app-64io.vercel.app", //admin-panel
-    "https://mern-hotel-booking-app-six.vercel.app"  //user-panel
+    "https://mern-hotel-booking-app-rpao.vercel.app"  //user-panel
   ],
   credentials: true
 }));
