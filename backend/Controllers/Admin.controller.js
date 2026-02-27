@@ -308,27 +308,46 @@ const DeleteRoom = async (req, res) => {
 };
 
 
-const UpdateRoom = async (req, res) => {
+
+
+ const updateRoom = async (req, res) => {
   try {
-    const { id } = req.params; // Room ID
+    const { id } = req.params;
     const { name, type, price, capacity, description, amenities } = req.body;
+    let imageUrls = req.body.images || []; // Make sure this is an array
 
-    // Required fields validation
-    if (!name || !type || !price || !capacity) {
-      return res.status(400).json({
-        success: false,
-        message: "Name, type, price, and capacity are required",
-      });
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success:false, message:"Invalid Room ID" });
     }
 
-    // Handle uploaded images if any
-    let imageUrls = [];
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const uploaded = await UploadCloudinary(file.path);
-        imageUrls.push(uploaded.secure_url);
-      }
+    // Ensure amenities is array
+    const amenitiesArray = typeof amenities === "string" ? amenities.split(",").map(a => a.trim()) : amenities;
+
+    // Build update object
+    const updateData = {
+      name,
+      type,
+      price: Number(price),
+      capacity: Number(capacity),
+      description,
+      amenities: amenitiesArray,
+      ...(imageUrls.length > 0 && { images: imageUrls }),
+    };
+
+    const updatedRoom = await Room.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!updatedRoom) {
+      return res.status(404).json({ success:false, message:"Room not found" });
     }
+
+    return res.status(200).json({ success:true, message:"Room updated successfully", data: updatedRoom });
+
+  } catch (error) {
+    console.error("Update Room Error:", error);
+    return res.status(500).json({ success:false, message:"Server Error" });
+  }
+};
 
     // Update the room
 //     const updatedRoom = await Room.findByIdAndUpdate(
@@ -686,4 +705,4 @@ const getRoomDetails = async(req,res) => {
   }
 }
 
-export {getRoomDetails,userDetails,AllRooms,registerAdmin,loginAdmin,CreateRoom,CreateHotel,DeleteRoom,UpdateRoom,AllBooking,AllUser,BookingCount,AllHotel,LogoutAdmin,blockUser,unblockUser}
+export {getRoomDetails,userDetails,AllRooms,registerAdmin,loginAdmin,CreateRoom,CreateHotel,DeleteRoom,UpdateRoom,AllBooking,AllUser,BookingCount,AllHotel,LogoutAdmin,blockUser,unblockUser} 
