@@ -2,11 +2,15 @@ import axios from "axios";
 
 
 
+// const api = axios.create({
+//     baseURL:'https://mern-hotel-booking-app-1-lama.onrender.com/user',
+//     withCredentials:true
+// })
+
 const api = axios.create({
     baseURL:'https://mern-hotel-booking-app-1-lama.onrender.com/user',
     withCredentials:true
-})
-
+});
 
 
 export const RegisterUser = (data) => api.post('/register', data)
