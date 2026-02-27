@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-    baseURL:'http://localhost:4000/user',
+    baseURL:'https://mern-hotel-booking-app-1-lama.onrender.com/user',
     withCredentials:true
 })
 

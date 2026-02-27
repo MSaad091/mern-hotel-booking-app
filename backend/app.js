@@ -8,9 +8,12 @@ const app = express();
 
 
 app.use(cors({
-      origin:"http://localhost:5173",
-    credentials: true
-}))
+  origin: [
+    "https://mern-hotel-booking-app-64io.vercel.app/", //admin-panel
+    "https://mern-hotel-booking-app-rpao.vercel.app/"  //user-panel
+  ],
+  credentials: true
+}));
 
 
 app.use(express.json())
