@@ -310,6 +310,46 @@ const DeleteRoom = async (req, res) => {
 
 
 
+const   UpdateRoom = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, type, price, capacity, description, amenities } = req.body;
+    let imageUrls = req.body.images || []; // Make sure this is an array
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success:false, message:"Invalid Room ID" });
+    }
+
+    // Ensure amenities is array
+    const amenitiesArray = typeof amenities === "string" ? amenities.split(",").map(a => a.trim()) : amenities;
+
+    // Build update object
+    const updateData = {
+      name,
+      type,
+      price: Number(price),
+      capacity: Number(capacity),
+      description,
+      amenities: amenitiesArray,
+      ...(imageUrls.length > 0 && { images: imageUrls }),
+    };
+
+    const updatedRoom = await Room.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!updatedRoom) {
+      return res.status(404).json({ success:false, message:"Room not found" });
+    }
+
+    return res.status(200).json({ success:true, message:"Room updated successfully", data: updatedRoom });
+
+  } catch (error) {
+    console.error("Update Room Error:", error);
+    return res.status(500).json({ success:false, message:"Server Error" });
+  }
+};
+
+
 //  const updateRoom = async (req, res) => {
 //   try {
 //     const { id } = req.params;
@@ -386,44 +426,44 @@ const DeleteRoom = async (req, res) => {
 // };
 
 
- const updateRoom = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, type, price, capacity, description, amenities } = req.body;
-    let imageUrls = req.body.images || []; // Make sure this is an array
+//  const updateRoom = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { name, type, price, capacity, description, amenities } = req.body;
+//     let imageUrls = req.body.images || []; // Make sure this is an array
 
-    // Validate ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success:false, message:"Invalid Room ID" });
-    }
+//     // Validate ObjectId
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//       return res.status(400).json({ success:false, message:"Invalid Room ID" });
+//     }
 
-    // Ensure amenities is array
-    const amenitiesArray = typeof amenities === "string" ? amenities.split(",").map(a => a.trim()) : amenities;
+//     // Ensure amenities is array
+//     const amenitiesArray = typeof amenities === "string" ? amenities.split(",").map(a => a.trim()) : amenities;
 
-    // Build update object
-    const updateData = {
-      name,
-      type,
-      price: Number(price),
-      capacity: Number(capacity),
-      description,
-      amenities: amenitiesArray,
-      ...(imageUrls.length > 0 && { images: imageUrls }),
-    };
+//     // Build update object
+//     const updateData = {
+//       name,
+//       type,
+//       price: Number(price),
+//       capacity: Number(capacity),
+//       description,
+//       amenities: amenitiesArray,
+//       ...(imageUrls.length > 0 && { images: imageUrls }),
+//     };
 
-    const updatedRoom = await Room.findByIdAndUpdate(id, updateData, { new: true });
+//     const updatedRoom = await Room.findByIdAndUpdate(id, updateData, { new: true });
 
-    if (!updatedRoom) {
-      return res.status(404).json({ success:false, message:"Room not found" });
-    }
+//     if (!updatedRoom) {
+//       return res.status(404).json({ success:false, message:"Room not found" });
+//     }
 
-    return res.status(200).json({ success:true, message:"Room updated successfully", data: updatedRoom });
+//     return res.status(200).json({ success:true, message:"Room updated successfully", data: updatedRoom });
 
-  } catch (error) {
-    console.error("Update Room Error:", error);
-    return res.status(500).json({ success:false, message:"Server Error" });
-  }
-};
+//   } catch (error) {
+//     console.error("Update Room Error:", error);
+//     return res.status(500).json({ success:false, message:"Server Error" });
+//   }
+// };
 
 const AllBooking = async (req,res) => {
   try {
@@ -704,5 +744,6 @@ const getRoomDetails = async(req,res) => {
     })
   }
 }
+
 
 export {getRoomDetails,userDetails,AllRooms,registerAdmin,loginAdmin,CreateRoom,CreateHotel,DeleteRoom,UpdateRoom,AllBooking,AllUser,BookingCount,AllHotel,LogoutAdmin,blockUser,unblockUser} 
