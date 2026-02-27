@@ -20,11 +20,39 @@ function UpdateRoom() {
   const [loading, setLoading] = useState(false);
 
   // Prefill room details
+  useEffect(() => {
+  const fetchRoom = async () => {
+    try {
+      const res = await RoomInfo(id);
+
+      // backend response me room object is inside data
+      const room = res.data.data;
+
+      console.log("Room data:", room);
+
+      // Safely set state with optional chaining
+      setName(room?.name || "");
+      setType(room?.type || "");
+      setPrice(room?.price || "");
+      setCapacity(room?.capacity || "");
+      setDescription(room?.description || "");
+      setAmenities(room?.amenities?.join(", ") || "");
+      setImages(room?.images || []);
+    } catch (error) {
+      toast.error("Failed to load room data");
+      console.log(error);
+    }
+  };
+
+  fetchRoom();
+}, [id]);
   // useEffect(() => {
   //   const fetchRoom = async () => {
   //     try {
   //       const res = await RoomInfo(id);
-  //       const room = res.data.room;
+  //       const room = res.data;
+  //       console.log(room.data);
+        
   //       setName(room?.name);
   //       setType(room.type);
   //       setPrice(room.price);
@@ -41,27 +69,27 @@ function UpdateRoom() {
   //   };
   //   fetchRoom();
   // }, [id]);
-  useEffect(() => {
-  const fetchRoom = async () => {
-    try {
-      const res = await RoomInfo(id);
-      console.log("RoomInfo Response:", res.data);
-      const room = res.data.room || res.data.data.find(r => r._id === id); 
-      if (!room) throw new Error("Room not found");
-      setName(room.name);
-      setType(room.type);
-      setPrice(room.price);
-      setCapacity(room.capacity);
-      setDescription(room.description);
-      setAmenities(room.amenities);
-      setImages(room.images || []);
-    } catch (error) {
-      toast.error("Failed to load room data");
-      console.log(error);
-    }
-  };
-  fetchRoom();
-}, [id]);
+//   useEffect(() => {
+//   const fetchRoom = async () => {
+//     try {
+//       const res = await RoomInfo(id);
+//       console.log("RoomInfo Response:", res.data);
+//       const room = res.data.room || res.data.data.find(r => r._id === id); 
+//       if (!room) throw new Error("Room not found");
+//       setName(room.name);
+//       setType(room.type);
+//       setPrice(room.price);
+//       setCapacity(room.capacity);
+//       setDescription(room.description);
+//       setAmenities(room.amenities);
+//       setImages(room.images || []);
+//     } catch (error) {
+//       toast.error("Failed to load room data");
+//       console.log(error);
+//     }
+//   };
+//   fetchRoom();
+// }, [id]);
 
   // Handle image selection
   const handleImages = (e) => {
