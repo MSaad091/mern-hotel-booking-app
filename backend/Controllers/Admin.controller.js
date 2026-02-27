@@ -91,7 +91,9 @@ const loginAdmin = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, { httpOnly: true, secure: false })
+      .cookie("accessToken", accessToken, { httpOnly: true,
+  secure: true,
+  sameSite: "none" })
       .json({
         success: true,
         message: "Admin logged in successfully",
@@ -145,70 +147,11 @@ const CreateHotel = async (req, res) => {
 
 
 
-// Cloudinary upload assume kiya hai req.files se
- // assume ye function return URL karta hai
 
 
 
-// Create Room
-// const CreateRoom = async (req, res) => {
-//   try {
-//     const { name, type, price, capacity, description, amenities } = req.body;
 
-//     // Validate required fields
-//     if (!name || !type || !price || !capacity) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Hotel, name, type, price, and capacity are required",
-//       });
-//     }
 
-//     // Check if hotel exists
-//     const hotel = await Hotel.findById(req.params.hotelId);
-//     if (!hotel) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Hotel not found",
-//       });
-//     }
-
-//     // Process uploaded images
-//     let imageUrls = [];
-//     if (req.files && req.files.length > 0) {
-//       imageUrls = req.files.map((file) => file.path); // Only store URLs
-//       console.log("Uploaded Images:", imageUrls);
-//     }
-
-//     // Create room
-//     const newRoom = await Room.create({
-//       hotel: req.params.hotelId,
-//       name,
-//       type,
-//       price,
-//       capacity,
-//       description,
-//       amenities,
-//       images: imageUrls, // store URLs only
-//     });
-
-//     // Add room to hotel's rooms array 
-//     hotel.rooms.push(newRoom._id);
-//     await hotel.save();
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Room created successfully",
-//       room: newRoom,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error",
-//       error: error.message,
-//     });
-//   }
-// };
 
 const CreateRoom = async (req, res) => {
   try {
@@ -279,30 +222,7 @@ const CreateRoom = async (req, res) => {
   }
 };
   
-// const AllRooms = async (req,res) => {
-//   try {
-//     const rooms = await Room.find();
-//     if (!rooms) {
-//       return res.status(404).json({
-//         success:false,
-//         message:"Room Not FOund"
-//       })
-//     }
-//     return res.status(200).json({
-//       success:true,
-//       message:"All Rooms Fetched",
-//       data:rooms
 
-//     })
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({
-//       success:false,
-//       message:"Server Error"
-//     })
-    
-//   }
-// }
 const AllRooms = async (req, res) => {
   try {
     const rooms = await Room.find();

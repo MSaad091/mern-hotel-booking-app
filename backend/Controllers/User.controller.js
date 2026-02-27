@@ -120,7 +120,8 @@ const loginUser = async (req, res) => {
     // Cookie options
     const options = {
       httpOnly: true,
-      secure: false, // change to true if using HTTPS
+  secure: true,
+  sameSite: "none" // change to true if using HTTPS
     };
 
     // Send response
@@ -551,106 +552,13 @@ const CheckoutBooking = async (req, res) => {
 };
  
 
-//old
-// const RoomBooked = async (req, res) => {  
-//   try {
-//     const userId = req.user._id; 
-//     const { roomId } = req.params;
-//     const { checkIn, checkOut } = req.body;
 
-//     if (!roomId || !checkIn || !checkOut) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "RoomId, checkIn and checkOut are required",
-//       });
-//     }
-
-//     const room = await Room.findById(roomId).populate("hotel");
-
-//     if (!room) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Room not found",
-//       });
-//     }
-
-//     // ✅ Check if room is already booked for given dates
-//     const alreadyBooked = await Booking.findOne({
-//       room: roomId,
-//       checkOut: { $gt: new Date(checkIn) }, // checkOut > requested checkIn
-//       checkIn: { $lt: new Date(checkOut) }, // checkIn < requested checkOut
-//       status: "Booked"
-//     });
-
-//     if (alreadyBooked) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Room is already booked for these dates",
-//       });
-//     }
 
     
     
-//     const days = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
-//     if (days <= 0) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Invalid booking dates",
-//       });
-//     }
 
-//     const totalPrice = days * room.price;
 
-//     const booking = await Booking.create({
-//       user: userId,
-//       hotel: room.hotel._id,
-//       room: room._id,
-//       checkIn,
-//       checkOut,
-//       totalPrice,
-//       // paymentStatus: "Paid",
-//       paymentStatus: "Pending",
-//       status: "Booked"
-//     });
 
-//     // ✅ Optional: remove isAvailable flag logic
-//     // room.isAvailable = false;
-//     // await room.save();
-
-//     // Email send
-//     if (req.user.email && req.user.name) {
-//       await sendEmail({
-//         to: req.user.email,
-//         subject: "Room Booking Confirmed ✅",
-//         html: `
-//           <h2>Booking Confirmed</h2>
-//           <p>Hello ${req.user.name},</p>
-//           <p>Your booking details:</p>
-//           <ul>
-//             <li><b>Hotel:</b> ${room.hotel.name}</li>
-//             <li><b>Room:</b> ${room.name}</li>
-//             <li><b>Check-in:</b> ${checkIn}</li>
-//             <li><b>Check-out:</b> ${checkOut}</li>
-//             <li><b>Total:</b> $${totalPrice}</li>
-//           </ul>
-//         `,
-//       });
-//     }
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Room booked successfully",
-//       data: booking,
-//     });
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error",
-//     });
-//   }
-// };
  
 
 
@@ -722,32 +630,7 @@ const UserLogout = async (req,res) => {
     
   }
 }
-// const CancelBooking = async (req,res) => {
-//   try {
 
-//     const {id} = req.params;
-//     const booking = await Booking.findById(id)
-//      if (!booking) {
-//       return res.status(404).json({ message: "Booking not found" });
-//     }
-//     const Room = await Room.findByIdAndUpdate(
-//       booking.room,{
-//         isAvailable:true
-//       }
-//     )
-//     await booking.deleteOne();
-//     return res.status(200).json({
-//       success:false,
-//       message:"Cancel Booking",
-//       data:Room
-//     })
-
-
-//   } catch (error) {
-//     console.log(error);
-    
-//   }
-// }
 const CancelBooking = async (req, res) => {
   try {
     const { id } = req.params;
