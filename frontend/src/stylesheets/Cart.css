@@ -1,0 +1,112 @@
+/* Cart Container */
+.cart-container {
+  max-width: 500px;
+  margin: 50px auto;
+  margin-top: 200px;
+  padding: 25px 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background-image: url('../assets/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Title */
+.cart-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Dates info */
+.cart-container p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.cart-container p strong {
+  color: #222;
+}
+
+/* Book Button */
+.cart-container button {
+  align-self: center;
+  padding: 12px 25px;
+  background-color: #4f46e5;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cart-container button:hover {
+  background-color: #3730a3;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 20px 15px;
+    margin: 40px 15px;
+  }
+  .cart-container h1 {
+    font-size: 1.8rem;
+  }
+  .cart-container p {
+    font-size: 0.95rem;
+  }
+  .cart-container button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Small devices / mobile */
+@media (max-width: 480px) {
+  .cart-container {
+    padding: 15px 12px;
+    margin: 30px 10px;
+  }
+  .cart-container h1 {
+    font-size: 1.6rem;
+  }
+  .cart-container p {
+    font-size: 0.9rem;
+  }
+  .cart-container button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra small devices (320px) */
+@media (max-width: 360px) {
+  .cart-container {
+    padding: 12px 10px;
+    margin: 25px 5px;
+  }
+  .cart-container h1 {
+    font-size: 1.4rem;
+  }
+  .cart-container p {
+    font-size: 0.85rem;
+  }
+  .cart-container button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}

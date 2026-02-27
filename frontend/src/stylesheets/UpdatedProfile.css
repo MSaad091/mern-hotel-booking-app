@@ -1,0 +1,90 @@
+/* Page Wrapper */
+.update-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: #f4f6fb; */
+  padding: 20px;
+}
+
+/* Card */
+.update-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.update-card h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #111;
+}
+
+/* Form */
+.update-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs */
+.update-card input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.update-card input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* Button */
+.update-card button {
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.update-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+/* Responsive – 320px */
+@media (max-width: 360px) {
+  .update-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .update-card h1 {
+    font-size: 20px;
+  }
+
+  .update-card input {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .update-card button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

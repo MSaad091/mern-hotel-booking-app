@@ -1,0 +1,192 @@
+/* ==================== */
+/* Register Page Layout  */
+/* ==================== */
+.register-page {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url("https://images.unsplash.com/photo-1566073771259-6a8506099945");
+  background-size: cover;
+  background-position: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ==================== */
+/* Register Card Style  */
+/* ==================== */
+.register-card {
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+}
+
+/* ==================== */
+/* Header & Subtitle    */
+/* ==================== */
+.register-card h2 {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #111827;
+  font-size: 1.8rem;
+}
+
+.register-card p {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* ==================== */
+/* Labels & Inputs      */
+/* ==================== */
+.register-card label {
+  font-size: 13px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.register-card input {
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.register-card input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+/* ==================== */
+/* Register Button      */
+/* ==================== */
+.register-card button {
+  margin-top: 22px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-card button:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ==================== */
+/* Login Link Option    */
+/* ==================== */
+.login-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.login-text .login-link {
+  color: #f59e0b;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.login-text .login-link:hover {
+  text-decoration: underline;
+  color: #d97706;
+}
+
+/* ==================== */
+/* Responsive Styles    */
+/* ==================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .register-card {
+    width: 80%;
+    padding: 25px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  .register-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .register-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .register-card p {
+    font-size: 13px;
+  }
+
+  .register-card input {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .register-card button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .login-text {
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Screens 320px */
+@media (max-width: 360px) {
+  .register-card {
+    width: 95%;
+    padding: 18px;
+  }
+
+  .register-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .register-card p {
+    font-size: 12px;
+  }
+
+  .register-card input {
+    font-size: 12px;
+    padding: 9px;
+  }
+
+  .register-card button {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .login-text {
+    font-size: 12px;
+  }
+}

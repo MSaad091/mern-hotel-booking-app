@@ -1,0 +1,144 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== PAGE ===== */
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    ),
+    url("https://images.unsplash.com/photo-1566073771259-6a8506099945")
+      center / cover no-repeat;
+}
+
+/* ===== CARD ===== */
+.login-card {
+  background: #ffffff;
+  width: 380px;
+  padding: 34px;
+  border-radius: 20px;
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.5s ease;
+}
+
+/* ===== TEXT ===== */
+.login-card h2 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+.login-card p {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* ===== FORM ===== */
+.login-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== LABEL ===== */
+.login-card label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* ===== INPUT ===== */
+.login-card input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+.login-card input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+/* ===== BUTTON ===== */
+.login-card button {
+  margin-top: 26px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-card button:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  transform: translateY(-2px);
+}
+
+/* ===== REGISTER LINK ===== */
+.register-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.register-text .register-link {
+  color: #f59e0b;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.register-text .register-link:hover {
+  text-decoration: underline;
+  color: #d97706;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 420px) {
+  .login-card {
+    width: 90%;
+    padding: 26px;
+  }
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
