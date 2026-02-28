@@ -21,7 +21,7 @@ router.post(
 router.post(
   "/hotels/:id/rooms",
   verifyJwt,
-  isAdmin,
+
   upload.array("images", 3), // 🔥 EXACT SAME NAME
   CreateRoom
 );
