@@ -295,12 +295,12 @@ const CreateRoom = async (req, res) => {
       data: room,
     });
   } catch (error) {
-  console.error("CreateRoom Error:", error);
+  console.error("CreateRoom Error:", error); // logs full error on server
   return res.status(500).json({
     success: false,
     message: "Internal Server Error",
-    error: error.message, // ⚡ send actual error
-    stack: error.stack    // optional, for debugging
+    error: error.message,       // ✅ send the actual error message to frontend
+    stack: error.stack          // optional: full stack trace for debugging
   });
 }
 };
