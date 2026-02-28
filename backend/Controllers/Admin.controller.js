@@ -153,10 +153,82 @@ const CreateHotel = async (req, res) => {
 
 
 
+// const CreateRoom = async (req, res) => {
+
+//   try {
+//     const { id } = req.params;
+//     const { name, type, price, capacity, description, amenities } = req.body;
+
+//     // 1️⃣ Basic validation
+//     if (!name || !type || !price || !capacity) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Name, type, price, and capacity are required",
+//       });
+//     }
+
+//     // 2️⃣ Check hotel exists
+//     const hotel = await Hotel.findById(id);
+//     if (!hotel) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Hotel Not Found",
+//       });
+//     }
+
+//     // 3️⃣ Check images
+//     if (!req.files || req.files.length === 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Room images are required",
+//       });
+//     }
+
+//     // 4️⃣ Upload images to Cloudinary
+//     const imageUrls = [];
+
+//     for (const file of req.files) {
+//       const uploaded = await UploadCloudinary(file.path);
+//       imageUrls.push(uploaded.secure_url);
+//     }
+
+//     // 5️⃣ Create room
+//     const room = await Room.create({
+//       hotel: hotel._id,
+//       name,
+//       type,
+//       price: Number(price),
+//       capacity: Number(capacity),
+//       description,
+//       amenities,
+//       images: imageUrls,
+//     });
+
+//     // 6️⃣ Save room reference in hotel
+//     hotel.rooms.push(room._id);
+//     await hotel.save();
+ 
+//     return res.status(201).json({
+//       success: true,
+//       message: "Room Created Successfully",
+//       data: room,
+//     });
+
+//   } catch (error) {
+//     console.error("CreateRoom Error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Internal Server Error",
+//     });
+//   }
+// };
+  
+
+
 const CreateRoom = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, type, price, capacity, description, amenities } = req.body;
+    const { name, type, price, capacity, description = "", amenities = "" } = req.body;
 
     // 1️⃣ Basic validation
     if (!name || !type || !price || !capacity) {
@@ -175,6 +247,9 @@ const CreateRoom = async (req, res) => {
       });
     }
 
+    // Initialize rooms array if undefined
+    if (!Array.isArray(hotel.rooms)) hotel.rooms = [];
+
     // 3️⃣ Check images
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -183,12 +258,19 @@ const CreateRoom = async (req, res) => {
       });
     }
 
-    // 4️⃣ Upload images to Cloudinary
+    // 4️⃣ Upload images safely
     const imageUrls = [];
-
     for (const file of req.files) {
-      const uploaded = await UploadCloudinary(file.path);
-      imageUrls.push(uploaded.secure_url);
+      try {
+        const uploaded = await UploadCloudinary(file.path);
+        if (uploaded && uploaded.secure_url) imageUrls.push(uploaded.secure_url);
+      } catch (err) {
+        console.error("Cloudinary Upload Error:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to upload images",
+        });
+      }
     }
 
     // 5️⃣ Create room
@@ -206,7 +288,7 @@ const CreateRoom = async (req, res) => {
     // 6️⃣ Save room reference in hotel
     hotel.rooms.push(room._id);
     await hotel.save();
- 
+
     return res.status(201).json({
       success: true,
       message: "Room Created Successfully",
@@ -221,7 +303,7 @@ const CreateRoom = async (req, res) => {
     });
   }
 };
-  
+
 
 const AllRooms = async (req, res) => {
   try {
