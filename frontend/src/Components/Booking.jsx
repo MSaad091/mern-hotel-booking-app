@@ -13,7 +13,7 @@ function Booking() {
     try {
       setLoading(true);
       const res = await allBooking();
-      const data = res.data;
+      const data = res.data.data;
 
       if (Array.isArray(data)) {
         setBookings(data);
