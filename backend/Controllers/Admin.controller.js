@@ -228,11 +228,8 @@ const CreateHotel = async (req, res) => {
 
 const CreateRoom = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; // hotel ID
     const { name, type, price, capacity, description, amenities } = req.body;
-
-    console.log("CreateRoom Request Body:", req.body);
-    console.log("CreateRoom Files:", req.files);
 
     // 1️⃣ Basic validation
     if (!name || !type || !price || !capacity) {
@@ -251,9 +248,6 @@ const CreateRoom = async (req, res) => {
       });
     }
 
-    // Ensure hotel.rooms exists
-    if (!Array.isArray(hotel.rooms)) hotel.rooms = [];
-
     // 3️⃣ Check images
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -262,12 +256,19 @@ const CreateRoom = async (req, res) => {
       });
     }
 
-    // 4️⃣ Upload images to Cloudinary
+    // 4️⃣ Upload images to Cloudinary using buffer (safe for Render)
     const imageUrls = [];
     for (const file of req.files) {
-      console.log("Uploading file:", file.path);
-      const uploaded = await UploadCloudinary(file.path);
-      console.log("Uploaded URL:", uploaded.secure_url);
+      const uploaded = await new Promise((resolve, reject) => {
+        const stream = UploadCloudinary.uploader.upload_stream(
+          { folder: "rooms" }, // optional folder
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(file.buffer); // ⚡ use buffer instead of file.path
+      });
       imageUrls.push(uploaded.secure_url);
     }
 
@@ -284,6 +285,7 @@ const CreateRoom = async (req, res) => {
     });
 
     // 6️⃣ Save room reference in hotel
+    if (!Array.isArray(hotel.rooms)) hotel.rooms = [];
     hotel.rooms.push(room._id);
     await hotel.save();
 
@@ -292,13 +294,12 @@ const CreateRoom = async (req, res) => {
       message: "Room Created Successfully",
       data: room,
     });
-
   } catch (error) {
     console.error("CreateRoom Error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error.message, // optional, helps debugging
+      error: error.message, // optional, for debugging only
     });
   }
 };
