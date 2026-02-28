@@ -70,12 +70,12 @@ function Profile() {
               <p>{user.city}</p>
             </div>
 
-            <div className="info-row">
+            {/* <div className="info-row">
               <span>Status</span>
               <p className={user.isVerified ? "verified" : "not-verified"}>
                 {user.isVerified ? "Verified" : "Not Verified"}
               </p>
-            </div>
+            </div> */}
 
             {/* Update Profile Button */}
             <button className="update-btn" onClick={handleRoute}>

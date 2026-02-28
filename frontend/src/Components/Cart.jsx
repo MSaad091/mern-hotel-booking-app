@@ -29,7 +29,7 @@ function Cart() {
   const fetchCartdetails = async () => {
     setBooking(true)
     try {
-         await new Promise((resolve) => setTimeout(resolve,1000))
+         await new Promise((resolve) => setTimeout(resolve,300))
       const res = await BookingRoom(id, { checkIn, checkOut });
       console.log(res.data);
 

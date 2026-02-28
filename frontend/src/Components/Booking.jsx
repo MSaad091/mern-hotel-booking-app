@@ -47,27 +47,8 @@ function Booking() {
     }
   };
 
-  // Checkout booking
-//  const CheckOutBooking = async (id) => {
-//   try {
-//     const request = await checkoutbooking(id);
-//     const response = request.data;
 
-//     if (response.success) {
-//       setBookings((prev) =>
-//         prev.map((item) =>
-//           item._id === id ? { ...item, status: "Completed" } : item
-//         )
-//       );
-//       alert("Checked out successfully!");
-//     } else {
-//       alert(response.message);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     alert("Something went wrong!");
-//   }
-// };
+
 const CheckOutBooking = async (id) => {
   try {
     const request = await checkoutbooking(id);
@@ -156,14 +137,14 @@ const CheckOutBooking = async (id) => {
               </p>
 
               {/* Checkout button for Active bookings */}
-              {getStatus(item) === "Active" && (
+              {/* {getStatus(item) === "Active" && (
                 <button
                   className="checkout-btn"
                   onClick={() => CheckOutBooking(item._id)}
                 >
                   Checkout
                 </button>
-              )}
+              )} */}
 
               {/* Cancel button within 10 minutes */}
               {canCancel(item) && (
