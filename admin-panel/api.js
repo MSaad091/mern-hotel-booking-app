@@ -33,3 +33,5 @@ export const updateRoom = (id,data) => api.put(`/update/room/${id}`,data)
 
 export const BookingInfo = (id) => api.get(`/details-booking/${id}`)
 export const RoomInfo = (id) => api.get(`/room-info/${id}`)
+export const ADminLogout = () => api.post('/logout')
+

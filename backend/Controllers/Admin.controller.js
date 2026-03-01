@@ -1118,6 +1118,41 @@ const getRoomDetails = async(req,res) => {
     })
   }
 }
+const adminLogout = async (req, res) => {
+  try {
+    // 1. Database se token remove karein
+    await User.findByIdAndUpdate(
+      req.user?._id, // ? safety ke liye lagaya hai
+      {
+        $set: {
+          accessToken: undefined
+        }
+      }
+    )
+
+    // 2. Cookie options (Render/Production ke liye optimized)
+    const options = {
+      httpOnly: true,
+      secure: true, // Render par HTTPS hota hai toh ye true hona chahiye
+      sameSite: 'None', // Agar frontend Vercel par hai aur backend Render par, toh ye lazmi hai
+    }
+
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .json({
+        success: true,
+        message: "User Logout Successfully"
+      });
+
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+  }
+}
 
 
-export {getRoomDetails,userDetails,AllRooms,registerAdmin,loginAdmin,CreateRoom,CreateHotel,DeleteRoom,UpdateRoom,AllBooking,AllUser,BookingCount,AllHotel,LogoutAdmin,blockUser,unblockUser} 
+export {adminLogout,getRoomDetails,userDetails,AllRooms,registerAdmin,loginAdmin,CreateRoom,CreateHotel,DeleteRoom,UpdateRoom,AllBooking,AllUser,BookingCount,AllHotel,LogoutAdmin,blockUser,unblockUser} 
