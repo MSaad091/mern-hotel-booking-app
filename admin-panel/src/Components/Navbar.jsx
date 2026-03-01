@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../stylesheets/Navbar.css";
 import { Link, useLocation } from "react-router-dom";
+import { ADminLogout } from "../../api";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+
+  const handleLogout = async() => {
+    const res = await ADminLogout();
+    console.log(res.data);
+    
+  }
 
   // Close sidebar when route changes
   useEffect(() => {
@@ -120,6 +127,9 @@ function Navbar() {
         </li>
         <li>
           <Link to='/login' onClick={() => setOpen(false)}>Login</Link>
+        </li>
+        <li>
+          <Link  onClick={handleLogout}>Logout</Link>
         </li>
       </ul>
     </>
