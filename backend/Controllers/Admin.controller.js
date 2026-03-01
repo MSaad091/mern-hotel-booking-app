@@ -226,6 +226,85 @@ const CreateHotel = async (req, res) => {
 
 
 
+// const CreateRoom = async (req, res) => {
+//   try {
+//     const { id } = req.params; // hotel ID
+//     const { name, type, price, capacity, description, amenities } = req.body;
+
+//     // 1️⃣ Basic validation
+//     if (!name || !type || !price || !capacity) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Name, type, price, and capacity are required",
+//       });
+//     }
+
+//     // 2️⃣ Check hotel exists
+//     const hotel = await Hotel.findById(id);
+//     if (!hotel) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Hotel Not Found",
+//       });
+//     }
+
+//     // 3️⃣ Check images
+//     if (!req.files || req.files.length === 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Room images are required",
+//       });
+//     }
+
+//     // 4️⃣ Upload images to Cloudinary using buffer (safe for Render)
+//     const imageUrls = [];
+//     for (const file of req.files) {
+//       const uploaded = await new Promise((resolve, reject) => {
+//         const stream = UploadCloudinary.uploader.upload_stream(
+//           { folder: "rooms" }, // optional folder
+//           (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//           }
+//         );
+//         stream.end(file.buffer); // ⚡ use buffer instead of file.path
+//       });
+//       imageUrls.push(uploaded.secure_url);
+//     }
+
+//     // 5️⃣ Create room
+//     const room = await Room.create({
+//       hotel: hotel._id,
+//       name,
+//       type,
+//       price: Number(price),
+//       capacity: Number(capacity),
+//       description,
+//       amenities,
+//       images: imageUrls,
+//     });
+
+//     // 6️⃣ Save room reference in hotel
+//     if (!Array.isArray(hotel.rooms)) hotel.rooms = [];
+//     hotel.rooms.push(room._id);
+//     await hotel.save();
+
+//     return res.status(201).json({
+//       success: true,
+//       message: "Room Created Successfully",
+//       data: room,
+//     });
+//   } catch (error) {
+//   console.error("CreateRoom Error:", error); // logs full error on server
+//   return res.status(500).json({
+//     success: false,
+//     message: "Internal Server Error",
+//     error: error.message,       // ✅ send the actual error message to frontend
+//     stack: error.stack          // optional: full stack trace for debugging
+//   });
+// }
+// };
+
 const CreateRoom = async (req, res) => {
   try {
     const { id } = req.params; // hotel ID
@@ -256,23 +335,32 @@ const CreateRoom = async (req, res) => {
       });
     }
 
-    // 4️⃣ Upload images to Cloudinary using buffer (safe for Render)
+    // 4️⃣ Upload images to Cloudinary using buffer
     const imageUrls = [];
+    
+    // Using for...of loop with await to ensure all images upload correctly
     for (const file of req.files) {
+      if (!file.buffer) {
+        throw new Error("File buffer is missing. Ensure multer is using memoryStorage.");
+      }
+
       const uploaded = await new Promise((resolve, reject) => {
         const stream = UploadCloudinary.uploader.upload_stream(
-          { folder: "rooms" }, // optional folder
+          { folder: "rooms" }, 
           (error, result) => {
-            if (error) return reject(error);
+            if (error) {
+              console.error("Cloudinary Upload Error:", error);
+              return reject(error);
+            }
             resolve(result);
           }
         );
-        stream.end(file.buffer); // ⚡ use buffer instead of file.path
+        stream.end(file.buffer); 
       });
       imageUrls.push(uploaded.secure_url);
     }
 
-    // 5️⃣ Create room
+    // 5️⃣ Create room (Formatting data types safely)
     const room = await Room.create({
       hotel: hotel._id,
       name,
@@ -280,32 +368,33 @@ const CreateRoom = async (req, res) => {
       price: Number(price),
       capacity: Number(capacity),
       description,
-      amenities,
+      // Frontend se agar string aaye (comma separated) toh use array banayein
+      amenities: Array.isArray(amenities) 
+        ? amenities 
+        : (amenities ? amenities.split(',').map(a => a.trim()) : []),
       images: imageUrls,
     });
 
     // 6️⃣ Save room reference in hotel
-    if (!Array.isArray(hotel.rooms)) hotel.rooms = [];
-    hotel.rooms.push(room._id);
-    await hotel.save();
+    // Using findByIdAndUpdate is safer to avoid version conflicts (versionKey errors)
+    await Hotel.findByIdAndUpdate(id, {
+      $push: { rooms: room._id }
+    });
 
     return res.status(201).json({
       success: true,
       message: "Room Created Successfully",
       data: room,
     });
+
   } catch (error) {
-  console.error("CreateRoom Error:", error); // logs full error on server
-  return res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-    error: error.message,       // ✅ send the actual error message to frontend
-    stack: error.stack          // optional: full stack trace for debugging
-  });
-}
+    console.error("CreateRoom Error Log:", error); 
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
 };
-
-
 
 
 const AllRooms = async (req, res) => {
