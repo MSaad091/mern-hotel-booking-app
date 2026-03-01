@@ -6,6 +6,7 @@ import { ADminLogout } from "../../api";
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const token = localStorage.getItem("token")
 
   const handleLogout = async() => {
     const res = await ADminLogout();
@@ -122,15 +123,23 @@ function Navbar() {
         {/* <li>
           <Link to='/create-room' onClick={() => setOpen(false)}>Create Room</Link>
         </li> */}
-        <li>
+      {
+        token ? (
+ <li>
+          <Link  onClick={handleLogout}>Logout</Link>
+        </li>
+        ):(
+           <>
+             <li>
           <Link to='/register' onClick={() => setOpen(false)}>Register</Link>
         </li>
         <li>
           <Link to='/login' onClick={() => setOpen(false)}>Login</Link>
         </li>
-        <li>
-          <Link  onClick={handleLogout}>Logout</Link>
-        </li>
+           </>
+        )
+      }
+       
       </ul>
     </>
   );

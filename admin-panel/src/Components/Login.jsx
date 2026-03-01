@@ -33,6 +33,7 @@ function Login() {
       const response = request.data;
 
       if (response.success) {
+        localStorage.setItem("token",response.data.token)
         toast.success("Login Successful 🎉");
         navigate("/all-rooms");
       }
