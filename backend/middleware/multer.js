@@ -31,11 +31,26 @@
 // });
 
 // export { upload };
+// import multer from 'multer';
+
+// // Purana diskStorage wala code hata dein
+// const storage = multer.memoryStorage(); // Ye line buffer enable karegi
+
+// const upload = multer({ storage });
+
+// export { upload };
 import multer from 'multer';
 
-// Purana diskStorage wala code hata dein
-const storage = multer.memoryStorage(); // Ye line buffer enable karegi
+// 1. Memory storage use karein taake RAM mein buffer ban sake
+// Render par folders (diskStorage) ke permissions ke masle hote hain
+const storage = multer.memoryStorage();
 
-const upload = multer({ storage });
+// 2. Upload middleware set karein
+const upload = multer({ 
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit (optional)
+    }
+});
 
 export { upload };
