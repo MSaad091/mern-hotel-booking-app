@@ -39,18 +39,29 @@
 // const upload = multer({ storage });
 
 // export { upload };
+// import multer from 'multer';
+
+// // 1. Memory storage use karein taake RAM mein buffer ban sake
+// // Render par folders (diskStorage) ke permissions ke masle hote hain
+// const storage = multer.memoryStorage();
+
+// // 2. Upload middleware set karein
+// const upload = multer({ 
+//     storage,
+//     limits: {
+//         fileSize: 5 * 1024 * 1024, // 5MB limit (optional)
+//     }
+// });
+
+// export { upload };
 import multer from 'multer';
 
-// 1. Memory storage use karein taake RAM mein buffer ban sake
-// Render par folders (diskStorage) ke permissions ke masle hote hain
+// Render ke liye memoryStorage zaroori hai
 const storage = multer.memoryStorage();
 
-// 2. Upload middleware set karein
 const upload = multer({ 
     storage,
-    limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB limit (optional)
-    }
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB tak ki image limit
 });
 
 export { upload };
