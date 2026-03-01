@@ -16,7 +16,7 @@ router.post(
   CreateHotel
 );
 
-router.route('/logout').post(verifyJwt,isAdmin,adminLogout)
+router.route('/logout').post(verifyJwt,adminLogout)
 // Route: POST /admin/hotels/:hotelId/rooms
 router.post(
   "/hotels/:id/rooms",
