@@ -482,38 +482,100 @@ const CreateHotel = async (req, res) => {
 //     });
 //   }
 // };
+// const CreateRoom = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { name, type, price, capacity, description, amenities } = req.body;
+
+//     // 1. Check Fields
+//     if (!name || !type || !price || !capacity) {
+//       return res.status(400).json({ success: false, message: "Required fields are missing" });
+//     }
+
+//     // 2. Check Images
+//     if (!req.files || req.files.length === 0) {
+//       return res.status(400).json({ success: false, message: "Please upload at least one image" });
+//     }
+
+//     // 3. Upload to Cloudinary (Using Buffer)
+//     const imageUrls = [];
+//     for (const file of req.files) {
+//       const result = await new Promise((resolve, reject) => {
+//         const stream = UploadCloudinary.uploader.upload_stream(
+//           { folder: "hotel_rooms" },
+//           (error, result) => {
+//             if (error) reject(error);
+//             else resolve(result);
+//           }
+//         );
+//         stream.end(file.buffer); // Multer memoryStorage se buffer yahan aayega
+//       });
+//       imageUrls.push(result.secure_url);
+//     }
+
+//     // 4. Create Room in DB
+//     const room = await Room.create({
+//       hotel: id,
+//       name,
+//       type,
+//       price: Number(price),
+//       capacity: Number(capacity),
+//       description,
+//       amenities: Array.isArray(amenities) ? amenities : (amenities ? amenities.split(',') : []),
+//       images: imageUrls
+//     });
+
+//     // 5. Update Hotel Document
+//     await Hotel.findByIdAndUpdate(id, { $push: { rooms: room._id } });
+
+//     return res.status(201).json({
+//       success: true,
+//       message: "Room created and added to hotel!",
+//       data: room
+//     });
+
+//   } catch (error) {
+//     console.error("CRITICAL ERROR:", error);
+//     return res.status(500).json({ 
+//         success: false, 
+//         message: "Server Error", 
+//         error: error.message 
+//     });
+//   }
+// };
 const CreateRoom = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, type, price, capacity, description, amenities } = req.body;
 
-    // 1. Check Fields
+    // 1. Validation
     if (!name || !type || !price || !capacity) {
-      return res.status(400).json({ success: false, message: "Required fields are missing" });
+      return res.status(400).json({ success: false, message: "Required fields missing" });
     }
 
-    // 2. Check Images
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ success: false, message: "Please upload at least one image" });
-    }
-
-    // 3. Upload to Cloudinary (Using Buffer)
+    // 2. Cloudinary Upload (Safety Check for Buffer)
     const imageUrls = [];
-    for (const file of req.files) {
-      const result = await new Promise((resolve, reject) => {
-        const stream = UploadCloudinary.uploader.upload_stream(
-          { folder: "hotel_rooms" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
-        stream.end(file.buffer); // Multer memoryStorage se buffer yahan aayega
-      });
-      imageUrls.push(result.secure_url);
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        if (!file.buffer) throw new Error("Multer buffer missing! Check memoryStorage.");
+        
+        const uploaded = await new Promise((resolve, reject) => {
+          const stream = UploadCloudinary.uploader.upload_stream(
+            { folder: "rooms" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result.secure_url);
+            }
+          );
+          stream.end(file.buffer);
+        });
+        imageUrls.push(uploaded);
+      }
+    } else {
+      return res.status(400).json({ success: false, message: "Room images are required" });
     }
 
-    // 4. Create Room in DB
+    // 3. Create Room (Ensuring numbers are numbers)
     const room = await Room.create({
       hotel: id,
       name,
@@ -521,26 +583,18 @@ const CreateRoom = async (req, res) => {
       price: Number(price),
       capacity: Number(capacity),
       description,
-      amenities: Array.isArray(amenities) ? amenities : (amenities ? amenities.split(',') : []),
-      images: imageUrls
+      amenities: Array.isArray(amenities) ? amenities : (amenities ? amenities.split(",") : []),
+      images: imageUrls,
     });
 
-    // 5. Update Hotel Document
+    // 4. Update Hotel
     await Hotel.findByIdAndUpdate(id, { $push: { rooms: room._id } });
 
-    return res.status(201).json({
-      success: true,
-      message: "Room created and added to hotel!",
-      data: room
-    });
+    return res.status(201).json({ success: true, message: "Room Created!", data: room });
 
   } catch (error) {
-    console.error("CRITICAL ERROR:", error);
-    return res.status(500).json({ 
-        success: false, 
-        message: "Server Error", 
-        error: error.message 
-    });
+    console.error("RENDER ERROR LOG:", error.message);
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 const AllRooms = async (req, res) => {
