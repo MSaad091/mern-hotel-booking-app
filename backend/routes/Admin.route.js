@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginAdmin, registerAdmin, CreateRoom, CreateHotel, DeleteRoom, UpdateRoom, AllUser, AllBooking, AllHotel, BookingCount, LogoutAdmin, blockUser, unblockUser, AllRooms, userDetails, getRoomDetails, adminLogout } from "../Controllers/Admin.controller.js";
+import { loginAdmin, registerAdmin, CreateRoom, CreateHotel, DeleteRoom, UpdateRoom, AllUser, AllBooking, AllHotel, BookingCount, LogoutAdmin, blockUser, unblockUser, AllRooms, userDetails, getRoomDetails } from "../Controllers/Admin.controller.js";
 import { verifyJwt } from "../middleware/Auth.js";
 import { isAdmin } from "../middleware/isAdmin.js";
 import { upload } from "../middleware/multer.js"; // 🔥 IMPORTANT
@@ -16,7 +16,7 @@ router.post(
   CreateHotel
 );
 
-router.route('/logout').post(verifyJwt,adminLogout)
+router.route('/logout').post(verifyJwt,isAdmin,adminLogout)
 // Route: POST /admin/hotels/:hotelId/rooms
 router.post(
   "/hotels/:id/rooms",
