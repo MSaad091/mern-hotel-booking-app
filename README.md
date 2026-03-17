@@ -64,5 +64,9 @@ This application simulates a real-world hotel booking platform where users can b
 - REST API
 
 ---
+## ⚙️ Installation & Setup
 
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/MSaad091/mern-hotel-booking-app.git
 ## 📂 Project Structure
