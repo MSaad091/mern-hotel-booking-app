@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { allBooking, cancelbooking, checkoutbooking } from "../../api";
-import "../stylesheets/Booking.css";
-
+// import "../stylesheets/Booking.css";
+import '../Stylesheets/Booking.css'
 function Booking() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
