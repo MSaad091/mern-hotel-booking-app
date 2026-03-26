@@ -10,11 +10,12 @@ function Navbar() {
   const navigate = useNavigate()
 
   const handleLogout = async() => {
-    const res = await ADminLogout();
-    console.log(res.data);
-    if (res.success) {
-      navigate('/login')
-    }
+const res = await ADminLogout();
+console.log(res.data);
+if (res.data.success) {   
+  localStorage.removeItem("token");
+  navigate('/login');
+}
     
   }
 
