@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BookingRoom, getRoomDetails } from '../../api';
 import { toast } from 'react-toastify';
-import '../Stylesheets/Cart.css';
+import '../stylesheets/Cart.css';
 import Navbar from './Navbar';
 
 function Cart() {

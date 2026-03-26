@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { getuser } from "../../api";
-import "../Stylesheets/Profile.css";
+import "../stylesheets/Profile.css";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {

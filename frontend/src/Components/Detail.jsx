@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DetailRoom, RoomDetails } from "../../api";
-// import "../stylesheets/Detail.css";
-import "../Stylesheets/Detail.css"
+import "../stylesheets/Detail.css";
+
 import Navbar from "./Navbar";
 
 function Detail() {

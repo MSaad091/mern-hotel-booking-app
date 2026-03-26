@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getComments, reviews } from "../../api";
-import "../Stylesheets/Review.css"
+import "../stylesheets/Review.css"
 
 function Review() {
   const { id } = useParams(); // roomId
