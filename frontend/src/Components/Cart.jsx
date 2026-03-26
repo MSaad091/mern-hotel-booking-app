@@ -191,6 +191,7 @@ function Cart() {
       </div>
     </>
   );
+  // checking purpuse
 }
 
 export default Cart; 
