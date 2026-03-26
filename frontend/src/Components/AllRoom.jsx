@@ -174,7 +174,8 @@
 
 import React, { useEffect, useState } from "react";
 import { Rooms } from "../../api";
-import "../stylesheets/Room.css";
+// import "../stylesheets/Room.css";
+import '../Stylesheets/Room.css'
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
