@@ -7,23 +7,31 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const token = localStorage.getItem("token")
-  const navgate = useNavigate();
+  const navigate = useNavigate();
 
-  // const handleLogout = async() => {
-  
-    
-    
-  // }
-  const handleLogout = async () => {
+
+//   const handleLogout = async () => {
  
   
- localStorage.removeItem("token");
+//  localStorage.removeItem("token");
 
  
-  console.log("Logged out successfully")
-  navgate('/login')
-};
+//   console.log("Logged out successfully")
+//   navgate('/login')
+// };
+ const handleLogout = () => {
+    // Remove token
+ const res = await   localStorage.removeItem("token");
 
+   
+
+    if (res.success) {
+      navigate('/login');
+       console.log("Logged out successfully");
+    }
+    // Redirect to login page
+     // Correct usage
+  };
   // Close sidebar when route changes
   useEffect(() => {
     setOpen(false);
