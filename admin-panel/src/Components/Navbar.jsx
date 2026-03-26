@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "../stylesheets/Navbar.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ADminLogout } from "../../api";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const token = localStorage.getItem("token")
+  const navigate = useNavigate()
 
   const handleLogout = async() => {
     const res = await ADminLogout();
     console.log(res.data);
+    if (res.success) {
+      navigate('/login')
+    }
     
   }
 
