@@ -21,7 +21,7 @@ function Navbar() {
 // };
  const handleLogout = () => {
     // Remove token
- const res = await   localStorage.removeItem("token");
+ const res = localStorage.removeItem("token");
 
    
 
