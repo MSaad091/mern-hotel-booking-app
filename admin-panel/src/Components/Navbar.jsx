@@ -1,37 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "../stylesheets/Navbar.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ADminLogout } from "../../api";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const token = localStorage.getItem("token")
-  const navigate = useNavigate();
 
+  const handleLogout = async() => {
+    const res = await ADminLogout();
+    console.log(res.data);
+    
+  }
 
-//   const handleLogout = async () => {
- 
-  
-//  localStorage.removeItem("token");
-
- 
-//   console.log("Logged out successfully")
-//   navgate('/login')
-// };
- const handleLogout = () => {
-    // Remove token
- const res = localStorage.removeItem("token");
-
-   
-
-    if (res.success) {
-      navigate('/login');
-       console.log("Logged out successfully");
-    }
-    // Redirect to login page
-     // Correct usage
-  };
   // Close sidebar when route changes
   useEffect(() => {
     setOpen(false);
