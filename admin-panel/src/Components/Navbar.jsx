@@ -8,7 +8,9 @@ function Navbar() {
   const location = useLocation();
   const token = localStorage.getItem("token")
   const navigate = useNavigate()
-
+ if (location.pathname === '/login' || location.pathname === '/') {
+  return null;
+}
   const handleLogout = async() => {
 const res = await ADminLogout();
 console.log(res.data);
