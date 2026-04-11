@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UpdateProfiles } from "../../api";
 import { useNavigate } from "react-router-dom";
 
-import "../stylesheets/UpdatedProfile.css"
+import "../Stylesheets/UpdatedProfile.css"
 function UpdateProfile() {
   const [fullName, setFullname] = useState("");
   const [phone, setPhone] = useState("");

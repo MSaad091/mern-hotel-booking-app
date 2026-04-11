@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import "../stylesheets/Home.css"
+import "../Stylesheets/Home.css"
 import { useNavigate } from "react-router-dom";
 
 function Home() {
