@@ -22,7 +22,7 @@ export const Rooms = () => api.get('/allrooms')
 export const DetailRoom = (id) => api.get(`/room/${id}`)
 
 export const RoomDetails = (id) => api.get(`/rooms/${id}`)
-
+export const getRoomDetails = (id) => api.get(`/room/${id}`)
 
 // export const BookingRoom = (id) => api.get(`/bookings/${id}`);
 export const BookingRoom = (id, data) => api.post(`/bookings/${id}`, data);
