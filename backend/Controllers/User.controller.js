@@ -438,7 +438,7 @@ const RoomBooked = async (req, res) => {
 
     // 📧 EMAIL
     if (req.user.email && req.user.name) {
-      await sendEmail({
+       sendEmail({
         to: req.user.email,
         subject: "Room Booking Confirmed ✅",
         html: `
