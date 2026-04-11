@@ -30,7 +30,7 @@ function Cart() {
       try {
         const response = await getRoomDetails(id);
         if (response.data.success) {
-          setRoomDetails(response.data.room);
+          setRoomDetails(response.data);
         }
       } catch (error) {
         console.error('Error fetching room details:', error);
