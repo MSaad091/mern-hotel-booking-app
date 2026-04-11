@@ -29,7 +29,7 @@ function Cart() {
     const fetchRoomDetails = async () => {
       try {
         const response = await getRoomDetails(id);
-        if (response.data.success) {
+        if (response.data) {
           setRoomDetails(response.data);
         }
       } catch (error) {
