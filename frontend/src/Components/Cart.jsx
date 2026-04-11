@@ -215,16 +215,13 @@ function Cart() {
   const [totalNights, setTotalNights] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Date format
   const formatDate = (date) => date.toISOString().split('T')[0];
 
-  // Nights calculation
   const calculateNights = (start, end) => {
     const diff = new Date(end) - new Date(start);
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
   };
 
-  // Default dates
   useEffect(() => {
     const today = new Date();
     const tomorrow = new Date();
@@ -234,27 +231,20 @@ function Cart() {
     setCheckOut(formatDate(tomorrow));
   }, []);
 
-  // 🔥 Fetch room
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
         const response = await getRoomDetails(id);
 
-        console.log("FULL API RESPONSE:", response);       // DEBUG
-        console.log("DATA:", response.data);               // DEBUG
-
-        // 🔥 HANDLE ALL CASES
-        let room =
+        // ✅ FIXED LINE (important)
+        const room =
           response.data?.room ||
           response.data?.data ||
           response.data;
 
-        console.log("FINAL ROOM:", room); // DEBUG
-
         setRoomDetails(room);
       } catch (error) {
-        console.error(error);
-        toast.error('Failed to load room');
+        toast.error('Failed to load room details');
       } finally {
         setLoading(false);
       }
@@ -263,21 +253,14 @@ function Cart() {
     if (id) fetchRoomDetails();
   }, [id]);
 
-  // Calculate price
   useEffect(() => {
     if (checkIn && checkOut && roomDetails) {
       const nights = calculateNights(checkIn, checkOut);
       setTotalNights(nights);
-
-      const price = Number(roomDetails?.price || 0);
-
-      console.log("PRICE:", price); // DEBUG
-
-      setTotalPrice(nights * price);
+      setTotalPrice(nights * Number(roomDetails?.price || 0));
     }
   }, [checkIn, checkOut, roomDetails]);
 
-  // Check-in change
   const handleCheckInChange = (e) => {
     const value = e.target.value;
     setCheckIn(value);
@@ -290,7 +273,6 @@ function Cart() {
     }
   };
 
-  // Check-out change
   const handleCheckOutChange = (e) => {
     const value = e.target.value;
 
@@ -301,14 +283,13 @@ function Cart() {
     }
   };
 
-  // Booking
   const fetchCartdetails = async () => {
     setBooking(true);
 
     try {
       const res = await BookingRoom(id, { checkIn, checkOut });
 
-      toast.success(`Booked for ${totalNights} night(s)!`);
+      toast.success(`Room booked for ${totalNights} night${totalNights > 1 ? 's' : ''}!`);
 
       if (res.data.success) {
         navigate('/bookings');
@@ -320,13 +301,13 @@ function Cart() {
     }
   };
 
-  // Loading UI
   if (loading) {
     return (
       <>
         <Navbar />
         <div className="loading-container">
-          <p>Loading...</p>
+          <div className="loading-spinner"></div>
+          <p>Loading room details...</p>
         </div>
       </>
     );
@@ -335,54 +316,64 @@ function Cart() {
   return (
     <>
       <Navbar />
-
       <div className="cart-container">
         <div className="cart-card">
           <h1>Booking Summary</h1>
 
-          {/* DEBUG UI */}
-          <p style={{fontSize:"12px", color:"gray"}}>
-            {JSON.stringify(roomDetails)}
-          </p>
-
-          {/* Room Info */}
           {roomDetails && (
             <div className="room-details">
-              <h3>{roomDetails?.name || 'Room'}</h3>
-              <p>{roomDetails?.description}</p>
-
+              <h3>{roomDetails?.name || 'Luxury Room'}</h3>
+              <p>{roomDetails?.description || 'Experience comfort and luxury during your stay.'}</p>
               <div className="room-price">
-                Price per night:
-                <span>
-                  Rs {roomDetails?.price ? roomDetails.price : "NOT FOUND"}
-                </span>
+                Price per night: 
+                <span>Rs {roomDetails?.price?.toLocaleString() || 0}</span>
               </div>
             </div>
           )}
 
-          {/* Dates */}
           <div className="date-container">
-            <input
-              type="date"
-              value={checkIn}
-              onChange={handleCheckInChange}
-            />
+            <div className="date-group">
+              <label>CHECK-IN DATE</label>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={handleCheckInChange}
+                min={formatDate(new Date())}
+              />
+            </div>
 
-            <input
-              type="date"
-              value={checkOut}
-              onChange={handleCheckOutChange}
-            />
+            <div className="date-group">
+              <label>CHECK-OUT DATE</label>
+              <input
+                type="date"
+                value={checkOut}
+                onChange={handleCheckOutChange}
+              />
+            </div>
           </div>
 
-          {/* Summary */}
           <div className="booking-summary">
-            <p>Nights: {totalNights}</p>
-            <p>Price: Rs {roomDetails?.price || 0}</p>
-            <h3>Total: Rs {totalPrice}</h3>
+            <div className="summary-item">
+              <span className="summary-label">Nights:</span>
+              <span className="summary-value">{totalNights} night{totalNights > 1 ? 's' : ''}</span>
+            </div>
+
+            <div className="summary-item">
+              <span className="summary-label">Price per night:</span>
+              <span className="summary-value">Rs {roomDetails?.price || 0}</span>
+            </div>
+
+            <div className="summary-item total-price">
+              <span className="summary-label">Total Amount:</span>
+              <span className="summary-value">Rs {totalPrice}</span>
+            </div>
           </div>
 
-          <button onClick={fetchCartdetails} disabled={booking}>
+          <button 
+            className="book-button" 
+            onClick={fetchCartdetails} 
+            disabled={booking}
+          >
             {booking ? "Processing..." : `Book Now - Rs ${totalPrice}`}
           </button>
         </div>
