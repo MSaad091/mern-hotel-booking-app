@@ -215,18 +215,16 @@ function Cart() {
   const [totalNights, setTotalNights] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Format date
+  // Date format
   const formatDate = (date) => date.toISOString().split('T')[0];
 
-  // Calculate nights
+  // Nights calculation
   const calculateNights = (start, end) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const diffTime = Math.abs(endDate - startDate);
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diff = new Date(end) - new Date(start);
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
   };
 
-  // Set default dates
+  // Default dates
   useEffect(() => {
     const today = new Date();
     const tomorrow = new Date();
@@ -236,21 +234,27 @@ function Cart() {
     setCheckOut(formatDate(tomorrow));
   }, []);
 
-  // Fetch room details
+  // 🔥 Fetch room
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
         const response = await getRoomDetails(id);
 
-        console.log("API RESPONSE:", response.data); // 👈 debug
+        console.log("FULL API RESPONSE:", response);       // DEBUG
+        console.log("DATA:", response.data);               // DEBUG
 
-        // Handle both structures
-        const room = response.data.room || response.data;
+        // 🔥 HANDLE ALL CASES
+        let room =
+          response.data?.room ||
+          response.data?.data ||
+          response.data;
+
+        console.log("FINAL ROOM:", room); // DEBUG
 
         setRoomDetails(room);
       } catch (error) {
         console.error(error);
-        toast.error('Failed to load room details');
+        toast.error('Failed to load room');
       } finally {
         setLoading(false);
       }
@@ -259,49 +263,52 @@ function Cart() {
     if (id) fetchRoomDetails();
   }, [id]);
 
-  // Calculate total price
+  // Calculate price
   useEffect(() => {
     if (checkIn && checkOut && roomDetails) {
       const nights = calculateNights(checkIn, checkOut);
       setTotalNights(nights);
-      setTotalPrice(nights * Number(roomDetails?.price || 0));
+
+      const price = Number(roomDetails?.price || 0);
+
+      console.log("PRICE:", price); // DEBUG
+
+      setTotalPrice(nights * price);
     }
   }, [checkIn, checkOut, roomDetails]);
 
-  // Handle check-in
+  // Check-in change
   const handleCheckInChange = (e) => {
-    const newCheckIn = e.target.value;
-    setCheckIn(newCheckIn);
+    const value = e.target.value;
+    setCheckIn(value);
 
-    const minCheckOut = new Date(newCheckIn);
-    minCheckOut.setDate(minCheckOut.getDate() + 1);
+    const nextDay = new Date(value);
+    nextDay.setDate(nextDay.getDate() + 1);
 
-    if (checkOut <= newCheckIn) {
-      setCheckOut(formatDate(minCheckOut));
+    if (checkOut <= value) {
+      setCheckOut(formatDate(nextDay));
     }
   };
 
-  // Handle check-out
+  // Check-out change
   const handleCheckOutChange = (e) => {
-    const newCheckOut = e.target.value;
+    const value = e.target.value;
 
-    if (newCheckOut > checkIn) {
-      setCheckOut(newCheckOut);
+    if (value > checkIn) {
+      setCheckOut(value);
     } else {
       toast.warning('Check-out must be after check-in');
     }
   };
 
-  // Booking function
+  // Booking
   const fetchCartdetails = async () => {
     setBooking(true);
 
     try {
       const res = await BookingRoom(id, { checkIn, checkOut });
 
-      toast.success(
-        `Room booked for ${totalNights} night${totalNights > 1 ? 's' : ''}!`
-      );
+      toast.success(`Booked for ${totalNights} night(s)!`);
 
       if (res.data.success) {
         navigate('/bookings');
@@ -319,8 +326,7 @@ function Cart() {
       <>
         <Navbar />
         <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading room details...</p>
+          <p>Loading...</p>
         </div>
       </>
     );
@@ -334,68 +340,49 @@ function Cart() {
         <div className="cart-card">
           <h1>Booking Summary</h1>
 
-          {/* Room Details */}
+          {/* DEBUG UI */}
+          <p style={{fontSize:"12px", color:"gray"}}>
+            {JSON.stringify(roomDetails)}
+          </p>
+
+          {/* Room Info */}
           {roomDetails && (
             <div className="room-details">
               <h3>{roomDetails?.name || 'Room'}</h3>
               <p>{roomDetails?.description}</p>
 
               <div className="room-price">
-                Price per night: 
-                <span> Rs {roomDetails?.price?.toLocaleString() || 0}</span>
+                Price per night:
+                <span>
+                  Rs {roomDetails?.price ? roomDetails.price : "NOT FOUND"}
+                </span>
               </div>
             </div>
           )}
 
           {/* Dates */}
           <div className="date-container">
-            <div className="date-group">
-              <label>CHECK-IN</label>
-              <input
-                type="date"
-                value={checkIn}
-                onChange={handleCheckInChange}
-                min={formatDate(new Date())}
-              />
-            </div>
+            <input
+              type="date"
+              value={checkIn}
+              onChange={handleCheckInChange}
+            />
 
-            <div className="date-group">
-              <label>CHECK-OUT</label>
-              <input
-                type="date"
-                value={checkOut}
-                onChange={handleCheckOutChange}
-                min={formatDate(
-                  new Date(new Date().setDate(new Date().getDate() + 1))
-                )}
-              />
-            </div>
+            <input
+              type="date"
+              value={checkOut}
+              onChange={handleCheckOutChange}
+            />
           </div>
 
           {/* Summary */}
           <div className="booking-summary">
-            <div className="summary-item">
-              <span>Nights:</span>
-              <span>{totalNights}</span>
-            </div>
-
-            <div className="summary-item">
-              <span>Price per night:</span>
-              <span>Rs {roomDetails?.price || 0}</span>
-            </div>
-
-            <div className="summary-item total-price">
-              <span>Total:</span>
-              <span>Rs {totalPrice.toLocaleString()}</span>
-            </div>
+            <p>Nights: {totalNights}</p>
+            <p>Price: Rs {roomDetails?.price || 0}</p>
+            <h3>Total: Rs {totalPrice}</h3>
           </div>
 
-          {/* Button */}
-          <button
-            className="book-button"
-            onClick={fetchCartdetails}
-            disabled={booking}
-          >
+          <button onClick={fetchCartdetails} disabled={booking}>
             {booking ? "Processing..." : `Book Now - Rs ${totalPrice}`}
           </button>
         </div>
