@@ -7,14 +7,16 @@ import { useNavigate, Link } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+  
     e.preventDefault();
-
+ 
     if (!email) return toast.error("Email is required");
     if (!password) return toast.error("Password is required");
-
+ setLoading(true)
     try {
       const request = await LoginUser({ email, password });
       const response = request.data;
@@ -29,6 +31,8 @@ function Login() {
       setPassword("");
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed ❌");
+    } finally{
+setLoading(false)
     }
   };
 
@@ -55,7 +59,10 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="submit">Login</button>
+          <button type="submit">{
+            loading ? "loging In" : "Login"
+}
+</button>
         </form>
 
         {/* Register Option */}
