@@ -1,0 +1,131 @@
+/* ==================== */
+/* Full Screen Hero      */
+/* ==================== */
+.main {
+  height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url('../assets/home.jpg'); /* replace with your image */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== */
+/* Hero Content          */
+/* ==================== */
+.hero-content {
+  text-align: center;
+  color: white;
+  max-width: 700px;
+  padding: 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+  line-height: 1.5;
+}
+
+/* ==================== */
+/* Hero Buttons          */
+/* ==================== */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-buttons button {
+  padding: 14px 30px;
+  font-size: 1rem;
+  border-radius: 30px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: white;
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 81, 47, 0.4);
+}
+
+.secondary {
+  background: white;
+  color: #333;
+}
+
+.secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ==================== */
+/* Responsive Styles     */
+/* ==================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  .hero-buttons button {
+    padding: 12px 25px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .hero-buttons button {
+    width: 80%;
+    max-width: 250px;
+    padding: 12px 0;
+  }
+}
+
+/* Extra Small 320px */
+@media (max-width: 360px) {
+  .hero-content h1 {
+    font-size: 1.7rem;
+  }
+  .hero-content p {
+    font-size: 0.95rem;
+  }
+  .hero-buttons button {
+    width: 90%;
+  }
+}

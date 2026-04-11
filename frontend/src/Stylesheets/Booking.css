@@ -1,0 +1,209 @@
+/* =======================
+   MAIN CONTAINER
+======================= */
+.booking-container {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* =======================
+   PAGE TITLE
+======================= */
+.booking-container h1 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =======================
+   BOOKING CARD
+======================= */
+.booking-card {
+  background: #ffffff;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+/* Room Name */
+.booking-card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+/* Booking Info */
+.booking-card p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.booking-card p strong {
+  color: #111827;
+}
+
+/* =======================
+   CANCEL BUTTON
+======================= */
+.booking-card button {
+  margin-top: 12px;
+  align-self: flex-start;
+  padding: 10px 18px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.booking-card button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* =======================
+   LOADING / EMPTY STATE
+======================= */
+.booking-loading {
+  text-align: center;
+  margin-top: 120px;
+  font-size: 1.1rem;
+  color: #6b7280;
+}
+
+.booking-container > p {
+  text-align: center;
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* =======================
+   TABLET (≤768px)
+======================= */
+@media (max-width: 768px) {
+  .booking-container {
+    padding: 30px 15px;
+  }
+
+  .booking-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .booking-card {
+    padding: 18px;
+  }
+
+  .booking-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .booking-card button {
+    padding: 9px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* =======================
+   MOBILE (≤480px)
+======================= */
+@media (max-width: 480px) {
+  .booking-container h1 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+
+  .booking-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .booking-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .booking-card p {
+    font-size: 0.9rem;
+  }
+
+  .booking-card button {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* =======================
+   SMALL MOBILE (≤360px)
+======================= */
+@media (max-width: 360px) {
+  .booking-container {
+    padding: 20px 10px;
+  }
+
+  .booking-container h1 {
+    font-size: 1.4rem;
+  }
+
+  .booking-card {
+    padding: 14px;
+    gap: 6px;
+  }
+
+  .booking-card h3 {
+    font-size: 1rem;
+  }
+
+  .booking-card p {
+    font-size: 0.85rem;
+  }
+
+  .booking-card button {
+    padding: 8px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+}
+
+/* =======================
+   EXTRA SMALL (≤320px)
+======================= */
+@media (max-width: 320px) {
+  .booking-container h1 {
+    font-size: 1.3rem;
+  }
+
+  .booking-card {
+    padding: 12px;
+  }
+
+  .booking-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .booking-card p {
+    font-size: 0.8rem;
+  }
+
+  .booking-card button {
+    padding: 7px;
+    font-size: 0.8rem;
+  }
+}

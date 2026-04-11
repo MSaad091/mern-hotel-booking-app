@@ -1,0 +1,146 @@
+/* 🔥 MAIN PAGE WRAPPER (NAV ISSUE FIX) */
+.detail-page {
+  min-height: calc(100vh - 80px);
+  /* background: #f4f6fb; */
+  padding: 30px 15px;
+}
+
+/* Card */
+.detail-container {
+  max-width: 900px;
+  /* margin: auto; */
+  margin-top: 100px;
+  margin-left: 300px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Title */
+.detail-container h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Images */
+.room-images {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+}
+
+.room-detail-img {
+  width: 250px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.room-detail-img:hover {
+  transform: scale(1.05);
+}
+
+/* Info */
+.detail-info p {
+  font-size: 1rem;
+  color: #444;
+}
+
+.detail-info strong {
+  color: #111;
+}
+
+/* Description */
+.room-description {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.detail-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.detail-actions button {
+  padding: 12px 25px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.detail-actions button:hover {
+  background: #3730a3;
+  transform: translateY(-2px);
+}
+
+.detail-actions .secondary {
+  background: #e5e7eb;
+  color: #111;
+}
+
+.detail-actions .secondary:hover {
+  background: #d1d5db;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .room-detail-img {
+    width: 200px;
+    height: 150px;
+  }
+  .detail-container{
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .room-detail-img {
+    width: 150px;
+    height: 120px;
+  }
+
+  .detail-container h1 {
+    font-size: 1.6rem;
+  }
+
+  .detail-actions {
+    flex-direction: column;
+  }
+}
+
+/* 320px */
+@media (max-width: 360px) {
+  .detail-container {
+    padding: 18px;
+  }
+
+  .room-detail-img {
+    width: 120px;
+    height: 100px;
+  }
+
+  .detail-container h1 {
+    font-size: 1.4rem;
+  }
+}

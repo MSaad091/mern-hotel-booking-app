@@ -1,0 +1,174 @@
+/* Review.css */
+
+/* Main container */
+.review-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.review-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.review-container h3 {
+  margin-top: 30px;
+  color: #555;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* Form */
+.review-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-container textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  min-height: 100px;
+  font-size: 16px;
+  outline: none;
+}
+
+.review-container textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+.review-container input[type="number"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100px;
+  font-size: 16px;
+  outline: none;
+}
+
+.review-container input[type="number"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+/* Submit button */
+.review-container button[type="submit"] {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.review-container button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Review cards */
+.review-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin: 15px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+}
+
+.review-card p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.review-card strong {
+  color: #007bff;
+}
+
+/* ====================== */
+/* Responsive Styles      */
+/* ====================== */
+
+@media (max-width: 768px) {
+  .review-container {
+    padding: 15px;
+  }
+
+  .review-container textarea {
+    min-height: 90px;
+    font-size: 15px;
+  }
+
+  .review-container input[type="number"] {
+    width: 80px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-container {
+    padding: 12px;
+    margin: 15px;
+  }
+
+  .review-container textarea {
+    min-height: 80px;
+    font-size: 14px;
+  }
+
+  .review-container input[type="number"] {
+    width: 70px;
+    font-size: 14px;
+  }
+
+  .review-card {
+    padding: 12px 15px;
+  }
+}
+
+/* Smallest screens ~ 320px */
+@media (max-width: 320px) {
+  .review-container {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .review-container h2,
+  .review-container h3 {
+    font-size: 18px;
+  }
+
+  .review-container textarea {
+    font-size: 13px;
+    min-height: 70px;
+  }
+
+  .review-container input[type="number"] {
+    width: 60px;
+    font-size: 13px;
+  }
+
+  .review-container button[type="submit"] {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .review-card {
+    padding: 10px;
+  }
+}
