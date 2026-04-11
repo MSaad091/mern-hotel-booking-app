@@ -139,7 +139,7 @@ function Cart() {
               <h3>{roomDetails.name || 'Luxury Room'}</h3>
               <p>{roomDetails.description || 'Experience comfort and luxury during your stay.'}</p>
               <div className="room-price">
-                Price per night: <span>${roomDetails.price || 0}</span>
+                Price per night: <span>${roomDetails?.price || 0}</span>
               </div>
             </div>
           )}
